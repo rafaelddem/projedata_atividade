@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
 RUN git config --global user.name "Rafael" \
     && git config --global user.email "rafaelddem@gmail.com"
 
-RUN git clone https://github.com/rafaelddem/projdata_backend.git /var/www/html \
+RUN git clone https://github.com/rafaelddem/projedata_backend.git /var/www/html \
     && chmod +x /var/www/html/mvnw
 
 WORKDIR /var/www/html
@@ -19,8 +19,6 @@ WORKDIR /var/www/html
 RUN mvn dependency:go-offline spring-boot:help
 
 # RUN mvn flyway:migrate
-
-# EXPOSE 8080
 
 # RUN mvn spring-boot:run
 # CMD ["mvn", "spring-boot:run"]

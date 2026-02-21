@@ -1,10 +1,23 @@
-version: "3.8"
-
 services:
+  db:
+    image: mysql:8.0
+    container_name: projedata_database
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: inventory_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpass
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
   backend:
     build: ./backend
     container_name: projedata_api
-    working_dir: /workspace
     volumes:
       - ./backend:/workspace
       - ~/.m2:/root/.m2
@@ -19,34 +32,15 @@ services:
     networks:
       - app-network
 
-  # frontend:
-  #   build: ./frontend
-  #   container_name: projedata_front
-  #   working_dir: /workspace
-  #   volumes:
-  #     - ./frontend:/workspace
-  #   ports:
-  #     - "3000:3000"
-  #   stdin_open: true
-  #   tty: true
-  #   environment:
-  #     - CHOKIDAR_USEPOLLING=true
-  #   networks:
-  #     - app-network
-
-  db:
-    image: mysql:8.0
-    container_name: projedata_database
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: inventory_db
-      MYSQL_USER: user
-      MYSQL_PASSWORD: userpass
+  frontend:
+    build: ./frontend
+    container_name: projedata_front
     ports:
-      - "3307:3306"
-    volumes:
-      - db_data:/var/lib/mysql
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
     networks:
       - app-network
 
